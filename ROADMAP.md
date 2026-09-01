@@ -14,6 +14,8 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 - Identity repository abstraction and in-memory sandbox adapter implemented.
 - Durable security audit event contract implemented for the sandbox adapter.
 - PostgreSQL migration `server/migrations/001_identity_security.sql` added for users, sessions, security audit and recovery requests; it is not applied to any live database.
+- Fail-closed migration preflight added: refuses live/production environments, non-PostgreSQL URLs, production-looking database names and remote databases without explicit sandbox opt-in.
+- Migration guard unit tests added and `npm run db:preflight` exposed.
 
 ## In Progress
 ### Wave 1 — Identity & Security
@@ -21,7 +23,6 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 - Add production-grade session/token strategy; store only token digests server-side.
 - Add MFA/passkey-ready interfaces.
 - Add account-recovery delivery abstraction without exposing secrets.
-- Add explicit mock/sandbox/live database separation and migration runner guardrails.
 - Add PostgreSQL integration tests once an isolated test database is available.
 
 ## Next
@@ -63,7 +64,7 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 ## Blocked / Human Action Rules
 Work continues around blockers. Ask the human only when needed for money/payment, paid model/subscription, external account/connector setup, credential entry, legal/account-owner decision, consequential public action outside standing authorization, or another genuinely non-resolvable choice.
 
-Current non-blocking infrastructure gap: no isolated PostgreSQL sandbox/test database has been provisioned or verified yet. Schema and adapter work can continue without claiming it has been applied.
+Current non-blocking infrastructure gap: no isolated PostgreSQL sandbox/test database has been provisioned or verified yet. Schema, adapter and fail-closed migration tooling can continue without claiming any migration has been applied.
 
 Never ask for passwords, PINs, OTPs, CVVs or secret keys in chat.
 
