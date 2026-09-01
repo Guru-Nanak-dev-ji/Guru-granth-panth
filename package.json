@@ -1,0 +1,13 @@
+{
+  "name": "kdn-wave1-identity-security",
+  "version": "0.1.0-sandbox",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "test": "node --test"
+  }
+}
