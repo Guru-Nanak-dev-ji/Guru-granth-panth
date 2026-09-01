@@ -11,15 +11,18 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 - Sandbox-only live guard implemented.
 - GitHub Actions CI added.
 - Wave 1 CI: unit tests, health smoke tests, safe 404 and live-guard checks passing.
+- Identity repository abstraction and in-memory sandbox adapter implemented.
+- Durable security audit event contract implemented for the sandbox adapter.
+- PostgreSQL migration `server/migrations/001_identity_security.sql` added for users, sessions, security audit and recovery requests; it is not applied to any live database.
 
 ## In Progress
 ### Wave 1 — Identity & Security
-- Replace ephemeral storage with PostgreSQL-backed repositories.
-- Add durable security audit events.
-- Add production-grade session/token strategy.
+- Implement PostgreSQL-backed repository adapter behind the existing identity-store contract.
+- Add production-grade session/token strategy; store only token digests server-side.
 - Add MFA/passkey-ready interfaces.
 - Add account-recovery delivery abstraction without exposing secrets.
-- Add explicit mock/sandbox/live database separation.
+- Add explicit mock/sandbox/live database separation and migration runner guardrails.
+- Add PostgreSQL integration tests once an isolated test database is available.
 
 ## Next
 ### Wave 2 — Web / PWA
@@ -59,6 +62,8 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 
 ## Blocked / Human Action Rules
 Work continues around blockers. Ask the human only when needed for money/payment, paid model/subscription, external account/connector setup, credential entry, legal/account-owner decision, consequential public action outside standing authorization, or another genuinely non-resolvable choice.
+
+Current non-blocking infrastructure gap: no isolated PostgreSQL sandbox/test database has been provisioned or verified yet. Schema and adapter work can continue without claiming it has been applied.
 
 Never ask for passwords, PINs, OTPs, CVVs or secret keys in chat.
 
