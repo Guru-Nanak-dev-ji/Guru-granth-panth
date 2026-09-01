@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node server/index.mjs",
-    "test": "node --test"
+    "test": "node --test",
+    "db:preflight": "node server/migration-guard.mjs"
   }
 }
