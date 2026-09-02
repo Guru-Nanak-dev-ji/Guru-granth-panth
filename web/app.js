@@ -15,3 +15,44 @@ bind('sessions',()=>api('/api/v1/auth/sessions'));
 bind('logout',async()=>{const r=await api('/api/v1/auth/logout','POST');token='';sessionStorage.removeItem('kdn_token');return r;});
 bind('logoutAll',async()=>{const r=await api('/api/v1/auth/logout-all','POST');token='';sessionStorage.removeItem('kdn_token');return r;});
 bind('recover',()=>api('/api/v1/auth/recovery/request','POST',{email:recoveryEmail.value}));
+
+const permissionDialog = document.getElementById('permissionDialog');
+const permissionState = document.getElementById('permissionState');
+const permissionKey = 'kdn_sandbox_permissions';
+const getPermissions = () => {
+  try { return JSON.parse(sessionStorage.getItem(permissionKey) || '{}'); }
+  catch { return {}; }
+};
+const setPermissions = (value) => sessionStorage.setItem(permissionKey, JSON.stringify(value));
+const renderPermissions = () => {
+  const state = getPermissions();
+  const active = Object.entries(state).filter(([,v]) => v === 'granted').map(([k]) => k);
+  permissionState.textContent = active.length
+    ? `Sandbox intent granted: ${active.join(', ')}`
+    : 'No sandbox permissions selected yet.';
+};
+
+document.getElementById('openPermissions').addEventListener('click', () => {
+  renderPermissions();
+  permissionDialog.showModal();
+});
+document.getElementById('closePermissions').addEventListener('click', () => permissionDialog.close());
+permissionDialog.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-permission]');
+  if (!button) return;
+  const key = button.dataset.permission;
+  const action = button.dataset.action;
+  const state = getPermissions();
+  state[key] = action === 'allow' ? 'granted' : 'revoked';
+  setPermissions(state);
+  renderPermissions();
+  if (key === 'bank.read' && action === 'allow') {
+    show({
+      status: 'sandbox_intent_recorded',
+      permission: 'bank.read',
+      linked: false,
+      next: 'Configure an official Open-Banking/OAuth provider. KDN must never collect your bank password, PIN, OTP or CVV.',
+      moneyMovementAuthorized: false
+    });
+  }
+});
