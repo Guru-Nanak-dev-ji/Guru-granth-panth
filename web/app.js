@@ -36,8 +36,16 @@ document.getElementById('openPermissions').addEventListener('click', () => {
   renderPermissions();
   permissionDialog.showModal();
 });
-document.getElementById('closePermissions').addEventListener('click', () => permissionDialog.close());
+
+// Accidental background taps must never dismiss the permission sheet.
+// Intentional dismissal still exists through the explicit Done/decline controls.
 permissionDialog.addEventListener('click', (event) => {
+  if (event.target === permissionDialog) {
+    event.preventDefault();
+    event.stopPropagation();
+    return;
+  }
+
   const button = event.target.closest('button[data-permission]');
   if (!button) return;
   const key = button.dataset.permission;
@@ -56,3 +64,13 @@ permissionDialog.addEventListener('click', (event) => {
     });
   }
 });
+
+// Browser Escape/cancel is treated as an explicit decline path, not an accidental
+// background tap. Prevent the browser's implicit close so the app can keep consent
+// handling deterministic and auditable.
+permissionDialog.addEventListener('cancel', (event) => {
+  event.preventDefault();
+  show({ status: 'permission_dialog_still_open', reason: 'explicit_choice_required' });
+});
+
+document.getElementById('closePermissions').addEventListener('click', () => permissionDialog.close());
