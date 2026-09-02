@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { sessionIsExpired } from './session-token.mjs';
 
 const now = () => new Date().toISOString();
 const auditId = () => `aud_${crypto.randomUUID().replaceAll('-', '')}`;
@@ -6,13 +7,14 @@ const auditId = () => `aud_${crypto.randomUUID().replaceAll('-', '')}`;
 /**
  * Sandbox in-memory implementation of the Wave-1 identity repository contract.
  * It is intentionally ephemeral and must never be treated as a live datastore.
+ * Session bearer tokens are never stored raw: callers supply only token digests.
  * A PostgreSQL adapter can implement the same methods without changing HTTP routes.
  */
 export class MemoryIdentityStore {
   constructor() {
     this.usersByEmail = new Map();
     this.usersById = new Map();
-    this.sessionsByToken = new Map();
+    this.sessionsByDigest = new Map();
     this.securityAudit = [];
   }
 
@@ -29,30 +31,31 @@ export class MemoryIdentityStore {
   getUserById(id) { return this.usersById.get(id) || null; }
   userCount() { return this.usersByEmail.size; }
 
-  createSession(token, session) {
-    this.sessionsByToken.set(token, session);
+  createSession(tokenDigest, session) {
+    if (!tokenDigest) throw new Error('session_token_digest_required');
+    this.sessionsByDigest.set(tokenDigest, session);
     return session;
   }
 
-  getSessionByToken(token) { return this.sessionsByToken.get(token) || null; }
+  getSessionByTokenDigest(tokenDigest) { return this.sessionsByDigest.get(tokenDigest) || null; }
 
   listSessionsForUser(userId) {
-    return [...this.sessionsByToken.values()].filter((x) => x.userId === userId);
+    return [...this.sessionsByDigest.values()].filter((x) => x.userId === userId);
   }
 
-  activeSessionCount() {
-    return [...this.sessionsByToken.values()].filter((x) => !x.revokedAt).length;
+  activeSessionCount(at = new Date()) {
+    return [...this.sessionsByDigest.values()].filter((x) => !x.revokedAt && !sessionIsExpired(x, at)).length;
   }
 
-  touchSession(token, at = now()) {
-    const session = this.sessionsByToken.get(token);
-    if (!session || session.revokedAt) return false;
+  touchSession(tokenDigest, at = now()) {
+    const session = this.sessionsByDigest.get(tokenDigest);
+    if (!session || session.revokedAt || sessionIsExpired(session, at)) return false;
     session.lastSeenAt = at;
     return true;
   }
 
-  revokeSession(token, at = now()) {
-    const session = this.sessionsByToken.get(token);
+  revokeSession(tokenDigest, at = now()) {
+    const session = this.sessionsByDigest.get(tokenDigest);
     if (!session || session.revokedAt) return false;
     session.revokedAt = at;
     return true;
@@ -60,7 +63,7 @@ export class MemoryIdentityStore {
 
   revokeAllSessions(userId, at = now()) {
     let count = 0;
-    for (const session of this.sessionsByToken.values()) {
+    for (const session of this.sessionsByDigest.values()) {
       if (session.userId === userId && !session.revokedAt) {
         session.revokedAt = at;
         count += 1;
