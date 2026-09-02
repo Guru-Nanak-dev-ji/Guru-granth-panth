@@ -1,1 +1,83 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <title>KDN One‑Click AI Hub</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div class="badge">KDN • Human + AI Network</div>
+      <h1>One Click Change Your Life — KDN 🧡</h1>
+      <p>लिखो, बोलो, या एक बटन दबाओ। अपना AI चुनो और हर action को अपनी permission से चलाओ।</p>
+    </header>
 
+    <section class="panel provider-panel" aria-labelledby="provider-title">
+      <h2 id="provider-title">1. अपना AI चुनें</h2>
+      <div class="provider-grid">
+        <button class="provider active" data-provider="chatgpt" aria-pressed="true">🤖 ChatGPT</button>
+        <button class="provider" data-provider="grok" aria-pressed="false">⚡ Grok</button>
+        <button class="provider" data-provider="kdn" aria-pressed="false">🧡 My KDN AI</button>
+      </div>
+      <div class="quick-links">
+        <a class="primary" href="https://chatgpt.com/" target="_blank" rel="noopener">Open ChatGPT ↗</a>
+        <a href="https://grok.com/" target="_blank" rel="noopener">Open Grok ↗</a>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="command-title">
+      <h2 id="command-title">2. Command दें — लिखकर या बोलकर 🎤</h2>
+      <div class="command-box">
+        <textarea id="commandInput" rows="3" placeholder="उदाहरण: मेरे सभी messages का polite AI draft बनाओ"></textarea>
+        <div class="command-actions">
+          <button id="voiceBtn" class="voice">🎤 बोलें</button>
+          <button id="runBtn" class="primary">▶ Run Command</button>
+        </div>
+      </div>
+      <p id="voiceStatus" class="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" aria-labelledby="actions-title">
+      <h2 id="actions-title">3. One‑Click Actions</h2>
+      <div class="action-grid">
+        <button data-command="मेरे pending messages के लिए AI reply drafts बनाओ">💬 Reply Drafts</button>
+        <button data-command="आज के जरूरी काम priority में दिखाओ">✅ Today Priority</button>
+        <button data-command="मेरे KDN project का अगला safe step बताओ">🚀 KDN Next Step</button>
+        <button data-command="मेरे social accounts को connect करने का setup खोलो">🔗 Connect Accounts</button>
+        <button data-command="मेरे personal AI की settings खोलो">🧠 My AI Settings</button>
+        <button data-command="मेरे AI के auto reply rules दिखाओ">🛡️ Auto‑Reply Rules</button>
+      </div>
+    </section>
+
+    <section class="panel auto-panel" aria-labelledby="auto-title">
+      <div>
+        <h2 id="auto-title">4. Auto‑Reply</h2>
+        <p>AI आपकी ओर से reply कर सकता है, लेकिन recipient को साफ़ दिखेगा: <strong>“AI-assisted reply”</strong>.</p>
+      </div>
+      <label class="switch-row">
+        <input id="autoReply" type="checkbox" />
+        <span>Auto‑Reply OFF</span>
+      </label>
+      <div class="guardrail">🛡️ Default: OFF • account permission required • no secret API keys in this page</div>
+    </section>
+
+    <section class="panel output-panel" aria-labelledby="output-title">
+      <h2 id="output-title">KDN AI Console</h2>
+      <div id="output" class="output" aria-live="polite">Ready. कोई command चुनें।</div>
+      <div class="decision-row" id="decisionRow" hidden>
+        <button class="primary" data-decision="apply">✅ Apply / आगे बढ़ो</button>
+        <button data-decision="preview">👁 Preview</button>
+        <button data-decision="cancel">✋ Cancel</button>
+      </div>
+    </section>
+
+    <footer>
+      <p>यह पहला सुरक्षित KDN shell है। Live ChatGPT/Grok API और social auto‑reply backend credentials मिलने पर जोड़े जाएंगे।</p>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
