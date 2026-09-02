@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createIdentityStore } from './store.mjs';
+import { digestSessionToken, issueSessionToken, sessionExpiry, sessionIsExpired } from './session-token.mjs';
 
 const PORT = Number(process.env.PORT || 3000);
 const ENV = process.env.KDN_ENV || 'sandbox';
@@ -48,10 +49,11 @@ const passwordOkay = (v = '') => typeof v === 'string' && v.length >= 12 && v.le
 const bearer = (req) => (req.headers.authorization || '').replace(/^Bearer\s+/i, '');
 const currentSession = (req) => {
   const token = bearer(req);
-  if (!token) return null;
-  const session = store.getSessionByToken(token);
-  if (!session || session.revokedAt) return null;
-  return { token, ...session };
+  const tokenDigest = digestSessionToken(token);
+  if (!tokenDigest) return null;
+  const session = store.getSessionByTokenDigest(tokenDigest);
+  if (!session || session.revokedAt || sessionIsExpired(session)) return null;
+  return { tokenDigest, ...session };
 };
 const throttle = (key) => {
   const t = Date.now();
@@ -117,16 +119,23 @@ const server = http.createServer(async (req, res) => {
         return json(res, 401, { error: 'invalid_credentials' });
       }
 
-      const token = crypto.randomBytes(32).toString('hex');
-      const session = store.createSession(token, {
+      const token = issueSessionToken();
+      const tokenDigest = digestSessionToken(token);
+      const createdAt = now();
+      const session = store.createSession(tokenDigest, {
         id: opaque('ses'),
         userId: user.id,
-        createdAt: now(),
-        lastSeenAt: now(),
+        createdAt,
+        lastSeenAt: createdAt,
+        expiresAt: sessionExpiry(createdAt),
         revokedAt: null
       });
       store.recordAudit('auth.login', { userId: user.id, sessionId: session.id, outcome: 'success' });
-      return json(res, 200, { token, session: { id: session.id, userId: user.id }, environment: ENV });
+      return json(res, 200, {
+        token,
+        session: { id: session.id, userId: user.id, expiresAt: session.expiresAt },
+        environment: ENV
+      });
     }
 
     if (req.method === 'GET' && url.pathname === '/api/v1/auth/me') {
@@ -134,8 +143,11 @@ const server = http.createServer(async (req, res) => {
       if (!session) return json(res, 401, { error: 'unauthorized' });
       const user = store.getUserById(session.userId);
       if (!user) return json(res, 401, { error: 'unauthorized' });
-      store.touchSession(session.token);
-      return json(res, 200, { user: { id: user.id, email: user.email }, session: { id: session.id, createdAt: session.createdAt } });
+      store.touchSession(session.tokenDigest);
+      return json(res, 200, {
+        user: { id: user.id, email: user.email },
+        session: { id: session.id, createdAt: session.createdAt, expiresAt: session.expiresAt }
+      });
     }
 
     if (req.method === 'GET' && url.pathname === '/api/v1/auth/sessions') {
@@ -145,6 +157,7 @@ const server = http.createServer(async (req, res) => {
         id: x.id,
         createdAt: x.createdAt,
         lastSeenAt: x.lastSeenAt,
+        expiresAt: x.expiresAt,
         revokedAt: x.revokedAt
       }));
       return json(res, 200, { sessions: list });
@@ -153,7 +166,7 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'POST' && url.pathname === '/api/v1/auth/logout') {
       const session = currentSession(req);
       if (!session) return json(res, 204, {});
-      store.revokeSession(session.token);
+      store.revokeSession(session.tokenDigest);
       store.recordAudit('auth.logout', { userId: session.userId, sessionId: session.id, outcome: 'success' });
       return json(res, 200, { status: 'revoked' });
     }
@@ -167,7 +180,6 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'POST' && url.pathname === '/api/v1/auth/recovery/request') {
-      // Deliberately generic: no account-enumeration signal and no email is sent in sandbox Wave 1.
       await readBody(req);
       store.recordAudit('auth.recovery_requested', { outcome: 'accepted_generic' });
       return json(res, 202, {
