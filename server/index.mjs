@@ -13,6 +13,8 @@ if (ENV === 'live') throw new Error('Wave 1 sandbox service refuses KDN_ENV=live
 
 const store = createIdentityStore({ environment: ENV });
 const attempts = new Map();
+const here = path.dirname(fileURLToPath(import.meta.url));
+const webRoot = path.join(here, '../web');
 
 const opaque = (prefix) => `${prefix}_${crypto.randomUUID().replaceAll('-', '')}`;
 const now = () => new Date().toISOString();
@@ -35,6 +37,20 @@ const json = (res, code, body) => {
     'content-security-policy': "default-src 'self'; object-src 'none'; frame-ancestors 'none'"
   });
   res.end(data);
+};
+const serveWebFile = async (res, filename, contentType, status = 200, extraHeaders = {}) => {
+  const body = await readFile(path.join(webRoot, filename));
+  res.writeHead(status, {
+    'content-type': contentType,
+    'cache-control': 'no-store',
+    'x-content-type-options': 'nosniff',
+    'referrer-policy': 'no-referrer',
+    ...extraHeaders
+  });
+  res.end(body);
+};
+const htmlHeaders = {
+  'content-security-policy': "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
 };
 const readBody = async (req) => {
   let raw = '';
@@ -194,22 +210,17 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/index.html')) {
-      const here = path.dirname(fileURLToPath(import.meta.url));
-      const html = await readFile(path.join(here, '../web/index.html'));
-      res.writeHead(200, {
-        'content-type': 'text/html; charset=utf-8',
-        'cache-control': 'no-store',
-        'content-security-policy': "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
-      });
-      return res.end(html);
+      return serveWebFile(res, 'index.html', 'text/html; charset=utf-8', 200, htmlHeaders);
     }
     if (req.method === 'GET' && url.pathname === '/app.js') {
-      const here = path.dirname(fileURLToPath(import.meta.url));
-      const js = await readFile(path.join(here, '../web/app.js'));
-      res.writeHead(200, { 'content-type': 'text/javascript; charset=utf-8', 'cache-control': 'no-store' });
-      return res.end(js);
+      return serveWebFile(res, 'app.js', 'text/javascript; charset=utf-8');
+    }
+    if (req.method === 'GET' && url.pathname === '/manifest.webmanifest') {
+      return serveWebFile(res, 'manifest.webmanifest', 'application/manifest+json; charset=utf-8');
     }
 
+    if (url.pathname.startsWith('/api/')) return json(res, 404, { error: 'not_found' });
+    if (req.method === 'GET') return serveWebFile(res, '404.html', 'text/html; charset=utf-8', 404, htmlHeaders);
     return json(res, 404, { error: 'not_found' });
   } catch (error) {
     if (error?.message === 'body_too_large') return json(res, 413, { error: 'request_too_large' });
