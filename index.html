@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#111827" />
   <title>KDN One‑Click AI Hub</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="onboarding.css" />
 </head>
 <body>
   <main class="shell">
@@ -14,6 +15,12 @@
       <h1>One Click Change Your Life — KDN 🧡</h1>
       <p>लिखो, बोलो, या एक बटन दबाओ। अपना AI चुनो और हर action को अपनी permission से चलाओ।</p>
     </header>
+
+    <section class="panel story-launch" aria-labelledby="story-title">
+      <h2 id="story-title">अपनी कहानी शुरू करें 🌱</h2>
+      <p>पहला सवाल: <strong>“तुम कौन हो?”</strong> आपका जवाब अगला सवाल चुनने में मदद करेगा। आप कभी भी Skip कर सकते हैं।</p>
+      <button id="startStory" class="primary">🧡 मेरी कहानी शुरू करो</button>
+    </section>
 
     <section class="panel provider-panel" aria-labelledby="provider-title">
       <h2 id="provider-title">1. अपना AI चुनें</h2>
@@ -78,6 +85,13 @@
       <p>यह पहला सुरक्षित KDN shell है। Live ChatGPT/Grok API और social auto‑reply backend credentials मिलने पर जोड़े जाएंगे।</p>
     </footer>
   </main>
+  <dialog id="storyDialog" aria-labelledby="story-dialog-title">
+    <div class="story-dialog-head"><button id="storyClose" type="button" aria-label="बंद करें">✕</button></div>
+    <form id="storyForm">
+      <div id="storyStep" class="story-step"></div>
+    </form>
+  </dialog>
   <script src="app.js"></script>
+  <script src="onboarding.js"></script>
 </body>
 </html>
