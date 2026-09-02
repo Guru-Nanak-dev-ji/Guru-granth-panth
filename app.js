@@ -1,110 +1,60 @@
 (() => {
-  const input = document.getElementById('commandInput');
-  const output = document.getElementById('output');
-  const runBtn = document.getElementById('runBtn');
-  const voiceBtn = document.getElementById('voiceBtn');
-  const voiceStatus = document.getElementById('voiceStatus');
-  const autoReply = document.getElementById('autoReply');
-  const autoLabel = document.querySelector('.switch-row span');
-  const decisionRow = document.getElementById('decisionRow');
-  let provider = 'chatgpt';
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const dialog = $('#journeyDialog');
+  const form = $('#journeyForm');
+  const body = $('#journeyStep');
+  const title = $('#dialogTitle');
+  const label = $('#stepLabel');
+  const next = $('#nextBtn');
+  const toast = $('#toast');
+  const state = { step: 0, answers: {}, persona: 'तर्क सिंह' };
+  let installPrompt;
 
-  document.querySelectorAll('.provider').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.provider').forEach(x => {
-        x.classList.remove('active');
-        x.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('active');
-      btn.setAttribute('aria-pressed', 'true');
-      provider = btn.dataset.provider;
-      output.textContent = `AI selected: ${provider.toUpperCase()} ✅`;
-    });
-  });
+  const steps = [
+    { label:'पहला कदम • आपकी कहानी', title:'तुम कौन हो?', html:`<p>नाम से आगे—आज आप अपने जीवन के किस अध्याय में हैं?</p><label>आपको किस नाम से बुलाएँ?<input type="text" name="name" maxlength="60" autocomplete="name" required></label><label>अपने बारे में एक बात जो दुनिया को समझनी चाहिए<textarea name="identity" rows="4" maxlength="320" required></textarea></label>` },
+    { label:'दूसरा कदम • आपकी दिशा', title:'अभी आपको क्या पुकार रहा है?', html:`<div class="choice-grid">${['सेवा','रोज़गार','शिक्षा','परिवार','समाचार','व्यापार','तकनीक','मानव एकता','कला व मनोरंजन','शासन व समाज'].map(x=>`<label class="choice"><input type="checkbox" name="interest" value="${x}"> ${x}</label>`).join('')}</div><label>अगले 30 दिनों में आप क्या बदलना चाहते हैं?<textarea name="goal" rows="3" maxlength="320"></textarea></label>` },
+    { label:'तीसरा कदम • आपकी अनुमति', title:'आपका रास्ता, आपका नियंत्रण', html:`<p>KDN आपके उत्तरों से अनुभव को उपयोगी बनाएगा। यह कोई सफलता, आय या परिणाम की गारंटी नहीं है।</p><label class="choice"><input type="checkbox" name="sessionConsent" required> इस browser session में मेरे उत्तरों से अगला सुझाव बनाया जा सकता है।</label><label class="choice"><input type="checkbox" name="partnerInfo"> मुझे voluntary partnership और Human Unity Mission की जानकारी दिखाएँ।</label><p>Partnership अपने-आप शुरू नहीं होगी। किसी account, payment या public post के लिए अलग अनुमति जरूरी होगी।</p>` }
+  ];
 
-  function explainCommand(command) {
-    const c = command.toLowerCase();
-    if (c.includes('connect') || c.includes('account')) {
-      return 'Account connection requested. अगला live step: हर platform की official permission/OAuth connection जोड़ना। Secret keys browser में नहीं रखेंगे।';
-    }
-    if (c.includes('auto') && c.includes('reply')) {
-      return `Auto-reply अभी ${autoReply.checked ? 'ON' : 'OFF'} है। Live replies में “AI-assisted reply” disclosure रहेगा और user-controlled rules लागू होंगे।`;
-    }
-    if (c.includes('setting')) {
-      return 'My AI Settings: नाम/persona, भाषा, tone, allowed accounts, reply hours, approval mode और privacy controls configure किए जाएंगे।';
-    }
-    if (c.includes('kdn') || c.includes('next step')) {
-      return 'KDN next step: provider API backend + consented account connectors + personal AI identity profile जोड़ना।';
-    }
-    if (c.includes('reply')) {
-      return 'Reply workflow selected: पहले AI draft, फिर approval; बाद में user चाहे तो trusted conversations के लिए auto-send enable कर सकेगा।';
-    }
-    return 'Command captured. इसे safe action में बदलने से पहले Preview या Apply चुनें।';
+  function showToast(message){ toast.textContent=message; toast.hidden=false; clearTimeout(showToast.t); showToast.t=setTimeout(()=>toast.hidden=true,3200); }
+  function render(){
+    const s=steps[state.step]; label.textContent=s.label; title.textContent=s.title; body.innerHTML=s.html;
+    next.textContent=state.step===steps.length-1?'मेरी KDN यात्रा बनाएँ':'अगला कदम';
   }
-
-  function runCommand(command) {
-    const clean = (command || '').trim();
-    if (!clean) {
-      output.textContent = 'पहले command लिखें या 🎤 बोलें।';
-      decisionRow.hidden = true;
-      return;
-    }
-    input.value = clean;
-    output.textContent = `Provider: ${provider.toUpperCase()}\nCommand: ${clean}\n\n${explainCommand(clean)}`;
-    decisionRow.hidden = false;
+  function openJourney(){ state.step=0; state.answers={}; render(); dialog.showModal(); }
+  function saveCurrent(){
+    const data=new FormData(form);
+    const interests=data.getAll('interest');
+    for(const [k,v] of data.entries()) if(k!=='interest') state.answers[k]=v;
+    if(interests.length) state.answers.interests=interests;
   }
-
-  runBtn.addEventListener('click', () => runCommand(input.value));
-
-  document.querySelectorAll('[data-command]').forEach(btn => {
-    btn.addEventListener('click', () => runCommand(btn.dataset.command));
+  $('#startJourney').addEventListener('click',openJourney);
+  $('#closeDialog').addEventListener('click',()=>dialog.close());
+  $('#laterBtn').addEventListener('click',()=>dialog.close());
+  form.addEventListener('submit',e=>{
+    e.preventDefault(); if(!form.reportValidity()) return; saveCurrent();
+    if(state.step<steps.length-1){ state.step++; render(); return; }
+    sessionStorage.setItem('kdnJourney',JSON.stringify(state.answers));
+    dialog.close(); showToast(`स्वागत है ${state.answers.name||''} 🧡 आपकी यात्रा तैयार है।`);
   });
 
-  document.querySelectorAll('[data-decision]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const choice = btn.dataset.decision;
-      if (choice === 'apply') output.textContent += '\n\n✅ APPLY selected. Live external action तभी चलेगा जब संबंधित account/API permission connected होगी।';
-      if (choice === 'preview') output.textContent += '\n\n👁 PREVIEW selected. कोई external change नहीं किया गया।';
-      if (choice === 'cancel') {
-        output.textContent = '✋ Cancelled. कोई external change नहीं किया गया।';
-        decisionRow.hidden = true;
-      }
-    });
-  });
+  $('#exploreBtn').addEventListener('click',()=>$('#worlds').scrollIntoView({behavior:'smooth'}));
+  $$('.persona').forEach(btn=>btn.addEventListener('click',()=>{
+    $$('.persona').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false')});
+    btn.classList.add('active');btn.setAttribute('aria-pressed','true');
+    const tark=btn.dataset.persona==='tark'; state.persona=tark?'तर्क सिंह':'भावना कौर';
+    $('#personaNote').textContent=tark?'तर्क सिंह आपके विचार को सवालों, विकल्पों और व्यावहारिक अगले कदम में बदलेंगे।':'भावना कौर आपकी कहानी, भावनाओं और लोगों से सहयोग का रास्ता समझने में मदद करेंगी।';
+  }));
+  $$('.world-card').forEach(btn=>btn.addEventListener('click',()=>showToast(`${btn.dataset.world} का प्रवेश-द्वार तैयार है; पूर्ण module अगली release में खुलेगा।`)));
+  $$('.chip').forEach(btn=>btn.addEventListener('click',()=>$('#sparkReply').textContent=`${btn.dataset.reaction} — अच्छा चुनाव। अब एक वाक्य में बताइए: बदलाव की शुरुआत कहाँ से हो?`));
+  $$('.nav-item[data-target]').forEach(btn=>btn.addEventListener('click',()=>{ const el=document.getElementById(btn.dataset.target); if(el) el.scrollIntoView({behavior:'smooth'}); }));
+  $('#askAi').addEventListener('click',()=>showToast(`${state.persona} जल्द आपकी बातचीत यहीं जारी रखेंगे।`));
+  $('#meBtn').addEventListener('click',openJourney);
+  $('#languageBtn').addEventListener('click',()=>showToast('हिंदी • ਪੰਜਾਬੀ • English • اردو — language switch अगली release में।'));
+  $('#profileBtn').addEventListener('click',openJourney);
 
-  autoReply.addEventListener('change', () => {
-    autoLabel.textContent = `Auto‑Reply ${autoReply.checked ? 'ON' : 'OFF'}`;
-    if (autoReply.checked) {
-      output.textContent = '🛡️ Auto‑Reply preference ON. यह अभी local preference है; live sending तब तक बंद है जब तक account permission, disclosure और reply rules configure नहीं होते।';
-    } else {
-      output.textContent = 'Auto‑Reply OFF ✅';
-    }
-  });
-
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (SpeechRecognition) {
-    const recognition = new SpeechRecognition();
-    recognition.lang = 'hi-IN';
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-    voiceBtn.addEventListener('click', () => {
-      voiceStatus.textContent = '🎤 सुन रहा हूँ…';
-      recognition.start();
-    });
-    recognition.onresult = event => {
-      const text = event.results[0][0].transcript;
-      input.value = text;
-      voiceStatus.textContent = `सुना: “${text}”`;
-      runCommand(text);
-    };
-    recognition.onerror = event => {
-      voiceStatus.textContent = `Voice error: ${event.error}. आप text command भी लिख सकते हैं।`;
-    };
-    recognition.onend = () => {
-      if (voiceStatus.textContent === '🎤 सुन रहा हूँ…') voiceStatus.textContent = 'Voice input बंद हुआ।';
-    };
-  } else {
-    voiceBtn.disabled = true;
-    voiceStatus.textContent = 'इस browser में voice recognition उपलब्ध नहीं; text command काम करेगा।';
-  }
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('#installBtn').hidden=false});
+  $('#installBtn').addEventListener('click',async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('#installBtn').hidden=true});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 })();
