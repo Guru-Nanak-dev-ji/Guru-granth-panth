@@ -12,12 +12,21 @@ test('user and session repository operations preserve opaque ownership boundarie
   assert.equal(store.createUser({ id: 'usr_456', email: 'a@example.com', pw: {salt:'s',hash:'h'} }), false);
   assert.equal(store.getUserByEmail('a@example.com').id, 'usr_123');
 
-  store.createSession('token1', { id: 'ses_1', userId: 'usr_123', createdAt: 't1', lastSeenAt: 't1', revokedAt: null });
-  store.createSession('token2', { id: 'ses_2', userId: 'usr_other', createdAt: 't1', lastSeenAt: 't1', revokedAt: null });
+  store.createSession('digest1', { id: 'ses_1', userId: 'usr_123', createdAt: 't1', lastSeenAt: 't1', expiresAt: '2099-01-01T00:00:00.000Z', revokedAt: null });
+  store.createSession('digest2', { id: 'ses_2', userId: 'usr_other', createdAt: 't1', lastSeenAt: 't1', expiresAt: '2099-01-01T00:00:00.000Z', revokedAt: null });
   assert.deepEqual(store.listSessionsForUser('usr_123').map(x => x.id), ['ses_1']);
-  assert.equal(store.revokeAllSessions('usr_123', 't2'), 1);
-  assert.equal(store.getSessionByToken('token1').revokedAt, 't2');
-  assert.equal(store.getSessionByToken('token2').revokedAt, null);
+  assert.equal(store.revokeAllSessions('usr_123', '2026-09-01T00:00:00.000Z'), 1);
+  assert.equal(store.getSessionByTokenDigest('digest1').revokedAt, '2026-09-01T00:00:00.000Z');
+  assert.equal(store.getSessionByTokenDigest('digest2').revokedAt, null);
+});
+
+test('expired sessions are excluded from active counts and cannot be touched', () => {
+  const store = createIdentityStore({ environment: 'sandbox' });
+  store.createSession('expired', { id: 'ses_old', userId: 'usr_123', createdAt: 't1', lastSeenAt: 't1', expiresAt: '2026-08-31T00:00:00.000Z', revokedAt: null });
+  store.createSession('active', { id: 'ses_new', userId: 'usr_123', createdAt: 't1', lastSeenAt: 't1', expiresAt: '2026-09-03T00:00:00.000Z', revokedAt: null });
+  assert.equal(store.activeSessionCount('2026-09-01T00:00:00.000Z'), 1);
+  assert.equal(store.touchSession('expired', '2026-09-01T00:00:00.000Z'), false);
+  assert.equal(store.touchSession('active', '2026-09-01T00:00:00.000Z'), true);
 });
 
 test('security audit is append-only through public interface', () => {
