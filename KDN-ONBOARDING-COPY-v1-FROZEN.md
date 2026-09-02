@@ -1,70 +1,233 @@
-# KDN Onboarding Copy v1 — FROZEN
+# KDN ऑनबोर्डिंग v1 — फ़्रीज़
 
-Status: **FROZEN**
+Status: **FROZEN MASTER COPY**
 
-The marketing line “One Click Change Your Life — KDN” never overrides these consent rules.
+टैगलाइन दीवार पर रह सकती है। बटन यह नहीं करेंगे: एक क्लिक में जीवन नहीं।
+एक स्क्रीन = एक काम, या एक अनुमति।
 
-## Screen order
-0. Door: Thali / Work / Donation-Pickup. No login required.
-1. Why KDN ID: show only sign-in methods that are genuinely configured and ready.
-2. Who we are: not a government, not a bank, AI is a bot, one permission at a time, money requires a separate second Yes.
-3. One permission for the selected job.
-4. Proof: request recorded; buttons only Request / Home.
-5. Optional next step: default primary action is **अभी नहीं**. Social and read-only bank remain secondary and separate.
+Back / क्रॉस / होम / टाइमआउट / ऐप बंद = **मना**।
+आधा OAuth, आधा बैंक, आधी याद — कुछ नहीं बचे।
 
-## Five frozen copy corrections
+---
 
-### 1. Screen 1 English line
+## स्क्रीन 0 — दरवाज़ा
+
+**KDN**
+आज एक काम चुनो।
+
+🍲 **थाली**
+पास की थाली या सेवा देखो।
+
+💼 **काम**
+सेवा या नौकरी कार्ड देखो। गारंटी नहीं।
+
+❤️ **दान / पिकअप**
+पुराना सामान या सेवा दो।
+
+लॉगिन अभी नहीं।
+इंसान चाहिए: WhatsApp +1 437-230-3338
+
+English: One job. No login yet.
+
+**बटन:** थाली देखो · काम देखो · दान / पिकअप · अभी सिर्फ़ देखो
+
+---
+
+## स्क्रीन 1 — KDN ID क्यों?
+
+KDN ID रिक्वेस्ट को तुमसे जोड़ता है।
+
+सिर्फ़ वही तरीका दिखे जो **सच में कॉन्फ़िगर** हो। जो नहीं है, बटन ही मत निकालो।
+
+हम Google या X का पासवर्ड नहीं देखते।
+बैंक का पासवर्ड, पिन, OTP, CVV यहाँ कभी नहीं माँगा जाएगा।
+
+OAuth या OTP न हो तभी अलग KDN पासवर्ड। वह बैंक पासवर्ड नहीं है।
+
 English: Choose one configured sign-in method. KDN never asks for your Google, X, or bank password, PIN, OTP, or CVV.
 
-### 2. Identity card is not an onboarding popup
-After sign-in, do not ask “पहचान की अनुमति दो” again.
+**बटन (सिर्फ़ जो चालू हों):** Google से जारी रखो · X से जारी रखो · फ़ोन OTP से जारी रखो · वापस
 
-Permission-home copy:
-- स्थिति: चालू — क्योंकि तुमने साइन-इन किया।
-- रद्द = उस लॉगिन को हटाओ या खाता मिटाने की माँग।
+---
 
-### 3. Plain-language retention copy
-Use this sentence instead of “retention period” on identity/thali/pickup copy:
+## स्क्रीन 2 — हम कौन हैं?
 
-“काम पूरा होने के बाद पता सार्वजनिक नहीं रहेगा। सिर्फ़ ज़रूरी रिकॉर्ड रखा जा सकता है।”
+हम सरकार नहीं हैं।
+हम बैंक नहीं हैं।
+KDN AI एक बॉट है, इंसान नहीं।
+हर अनुमति अलग। मना कर सकते हो, बाद में रद्द कर सकते हो।
+पैसा बिना दूसरे अलग Yes के नहीं जाएगा।
 
-Pickup also adds:
+English: KDN is not a government or bank. AI is a bot. Permissions are separate. Money needs a second explicit Yes.
 
-“यह पता प्रोफ़ाइल या बाज़ार पर नहीं चढ़ेगा।”
+**बटन:** समझ गया · वापस
 
-### 4. Work card audience
-Do not say marketplace/community.
+---
 
-Use:
+## स्क्रीन 3 — इसी काम की एक अनुमति
 
-“जो लोग KDN के काम खंड में जाएँ, वे कार्ड देख सकते हैं।”
+«फिर मत पूछो» = **इसी अनुमति + इसी काम** का ऑटो-पॉपअप बंद। बाकी अनुमतियाँ न बंद, न हमेशा के लिए चालू।
 
-No income or job guarantee language.
+### थाली → इलाका
 
-### 5. WhatsApp notification is not human support
-Under `notify.whatsapp`:
+**क्या:** शहर, इलाका या पिन। घर का नंबर नहीं।
+**क्यों:** पास की थाली दिखानी है।
+**कौन:** KDN लोकल खोज। स्वयंसेवक को पूरा घर नहीं।
+**कब तक:** इस खोज तक, या जब तुम बंद करो।
+काम पूरा होने के बाद पता सार्वजनिक नहीं रहेगा। सिर्फ़ ज़रूरी रिकॉर्ड रखा जा सकता है।
+**रद्द:** अनुमतियाँ → इलाका → बंद
 
-“यह अपडेट के लिए है। इंसान से बात: वही नंबर, जब तुम लिखो। KDN खुद बार-बार प्रचार नहीं भेजेगा।”
+**बटन:** अनुमति दो · अभी नहीं · इस काम पर फिर मत पूछो · वापस
 
-## Freeze list for development
-- Screen 0–5 in this exact order.
-- Screen 5 default/primary: **अभी नहीं**.
-- “फिर मत पूछो” = only the same permission + the same task popup.
-- Push / Email / WhatsApp are three separate scopes.
-- Bank read-only consent: maximum 90 days; no password/PIN/OTP/CVV; no payment authority.
-- AI memory default OFF.
-- Money-send card is never part of signup.
-- Back / close / home / timeout / app close = decline; partial OAuth, partial bank-link or partial memory grant leaves no consent behind.
-- One click = one task + one permission, never bundled permanent consent.
+### काम → सार्वजनिक काम कार्ड
 
-## Auth-button implementation rule
-A sign-in control must not exist on Screen 1 unless the server confirms that the complete auth method is actually ready. “Configured” means the complete provider path exists (authorization/PKCE or OTP start, callback/verification, state/nonce protection where applicable, and server-side configuration). A placeholder, environment flag alone, or future plan is not enough.
+**क्या:** नाम + कौन-सा काम/सेवा।
+**क्यों:** काम खंड में कार्ड दिखे।
+**कौन:** जो लोग KDN के काम खंड में जाएँ, वे कार्ड देख सकते हैं।
+**कब तक:** जब कार्ड छुपाओ या मिटाओ।
+यह नौकरी या आय की गारंटी नहीं है।
+**रद्द:** मेरा काम कार्ड → छुपाओ / मिटाओ
 
-Current Wave-1 sandbox state:
-- Google OAuth: not ready → do not render.
-- X OAuth: not ready → do not render.
-- Phone OTP: not ready → do not render.
-- Sandbox password fallback: ready for sandbox only.
+**बटन:** कार्ड दिखाने की अनुमति दो · अभी नहीं · इस काम पर फिर मत पूछो · वापस
 
-No fake OAuth success states, demo provider buttons, or credentials are allowed.
+### दान / पिकअप → सटीक पता
+
+**क्या:** इसी पिकअप का पूरा पता।
+**क्यों:** सामान उठाने सही जगह पहुँचना है।
+**कौन:** KDN + उसी पिकअप पर नियुक्त स्वयंसेवक।
+**कब तक:** पिकअप पूरा + ज़रूरी रिकॉर्ड। फिर इस काम के लिए पता मत चलाओ।
+यह पता प्रोफ़ाइल या बाज़ार पर नहीं चढ़ेगा।
+काम पूरा होने के बाद पता सार्वजनिक नहीं रहेगा। सिर्फ़ ज़रूरी रिकॉर्ड रखा जा सकता है।
+**रद्द:** पिकअप रद्द, या अनुमतियाँ → पता → बंद
+
+**बटन:** इस पिकअप के लिए पता दो · अभी नहीं · इस काम पर फिर मत पूछो · वापस
+
+English: One task, one permission. “Don’t ask again” applies only to this permission for this task.
+
+---
+
+## स्क्रीन 4 — सबूत
+
+रिक्वेस्ट लग गई।
+आईडी: `[opaque]`
+स्थिति: मिली है
+पैसा नहीं गया।
+
+अगर सूचना की अनुमति पहले दे चुके हो, अपडेट उसी चैनल पर आ सकता है। यहाँ नई अनुमति मत माँगो।
+
+English: Your request has been recorded. No money was sent.
+
+**बटन:** मेरी रिक्वेस्ट · होम
+
+---
+
+## स्क्रीन 5 — वैकल्पिक, दबाव नहीं
+
+पहला काम हो गया। और कुछ ज़रूरी नहीं।
+
+सोशल और बैंक यहाँ सोने के बड़े बटन नहीं। छोटे लिंक।
+
+- **सोशल बाद में** — आधिकारिक OAuth। अलग पत्ता।
+- **बैंक बाद में** — आधिकारिक Open Banking। सिर्फ़ पढ़ना। पासवर्ड/पिन/OTP/CVV नहीं। इस अनुमति से पैसा नहीं जाता। अधिकतम 90 दिन, फिर फिर पूछो। पेमेंट हमेशा अलग Yes।
+
+English: Nothing else is required. Social and read-only bank are optional and separate.
+
+**बटन:** अभी नहीं *(डिफ़ॉल्ट, सोना)* · सोशल बाद में · बैंक बाद में
+
+---
+
+## अनुमति-घर — कार्ड
+
+ऑनबोर्डिंग में पहचान का पॉपअप **मत** दिखाओ।
+
+### पहचान
+स्थिति: **चालू — क्योंकि तुमने साइन-इन किया।**
+क्या: तुम्हारा KDN खाता।
+क्यों: रिक्वेस्ट तुमसे जुड़े।
+कौन: पहचान सेवा + वही मॉड्यूल जिसे पहचान चाहिए।
+काम पूरा होने के बाद पता सार्वजनिक नहीं रहेगा। सिर्फ़ ज़रूरी रिकॉर्ड रखा जा सकता है।
+रद्द = वह लॉगिन हटाओ, या खाता मिटाने की माँग।
+**कोई बटन «पहचान की अनुमति दो» ऑनबोर्डिंग में नहीं।**
+
+### Push — `notify.push`
+डिवाइस पर अलर्ट।
+रद्द: अनुमतियाँ या फ़ोन सेटिंग।
+**बटन:** Push अलर्ट चालू करो
+
+### ईमेल — `notify.email`
+चुने अपडेट ईमेल पर।
+रद्द: अनुमतियाँ → ईमेल → बंद
+**बटन:** ईमेल अपडेट चालू करो
+
+### WhatsApp — `notify.whatsapp`
+चुने नंबर पर अपडेट।
+यह अपडेट के लिए है। इंसान से बात: +1 437-230-3338, जब तुम लिखो। KDN खुद बार-बार प्रचार नहीं भेजेगा।
+रद्द: अनुमतियाँ → WhatsApp → बंद
+**बटन:** WhatsApp अपडेट चालू करो
+
+### इलाका
+शहर / पिन। घर का नंबर नहीं।
+रद्द: अनुमतियाँ → इलाका → बंद
+**बटन:** मेरा इलाका इस्तेमाल करो
+
+### सटीक पता
+सिर्फ़ उसी डिलीवरी/पिकअप के लिए। प्रोफ़ाइल या बाज़ार पर नहीं।
+रद्द: काम रद्द, या पता हटाओ
+**बटन:** इस काम के लिए पता दो
+
+### X पढ़ना
+जो स्कोप X की आधिकारिक स्क्रीन पर दिखा और मंज़ूर हुआ।
+नहीं: DM, तुम्हारी ओर से पोस्ट, लिखना, छुपा स्कोप।
+रद्द: KDN अनुमतियाँ **और** X की connected apps।
+**बटन:** X पढ़ने की अनुमति दो
+
+### Google पहचान
+सिर्फ़ नाम + ईमेल।
+नहीं: Gmail, Drive, Photos, Contacts, Calendar।
+रद्द: KDN अनुमतियाँ **और** Google connected apps।
+**बटन:** Google पहचान की अनुमति दो
+
+### AI बात
+यह बात जवाब के लिए।
+इंसान तभी: तुम मदद माँगो, या हैंडऑफ़ नियम लगे। हर चैट स्टाफ़ नहीं पढ़ता।
+हर बुलबुले पर: «KDN एआई — यह इंसान नहीं है।»
+**बटन:** KDN AI से बात करो
+
+### AI याद
+डिफ़ॉल्ट **बंद**। अपने आप कुछ मत रखो।
+**बटन:** यह बात याद रखो — तभी जब यूज़र खुद कहे
+रद्द: AI याद → देखो → हटाओ
+
+### बैंक — सिर्फ़ देखना
+पार्टनर से बैलेंस और लेन-देन सूची। अधिकतम 90 दिन।
+KDN नहीं लेता: पासवर्ड, पिन, OTP, CVV।
+इस स्कोप से पेमेंट या ट्रांसफर नहीं।
+रद्द: KDN अनुमतियाँ **और** बैंक/पार्टनर ऐप।
+**बटन:** बैंक सिर्फ़ देखने की अनुमति दो
+
+### पैसा भेजना
+साइनअप में नहीं। तब जब यूज़र खुद एक भुगतान शुरू करे।
+एक राशि + एक प्राप्तकर्ता + एक लेन-देन + अलग Yes।
+Read-only बैंक यह कार्ड नहीं खोलती।
+**बटन:** `[राशि]` `[प्राप्तकर्ता]` को भेजने की मंज़ूरी दो
+
+---
+
+## देव — यही मत तोड़ना
+
+1. स्क्रीन 0–5 यही क्रम।
+2. स्क्रीन 5 का सोना: **अभी नहीं**।
+3. जो OAuth कॉन्फ़िगर नहीं, स्क्रीन 1 पर बटन नहीं।
+4. पुश / ईमेल / WhatsApp तीन स्कोप।
+5. बैंक 90 दिन; सीक्रेट नहीं; इस स्कोप से पेमेंट नहीं।
+6. AI याद डिफ़ॉल्ट बंद।
+7. पैसा कार्ड साइनअप में नहीं।
+8. डेमो पासवर्ड (`admin123` वगैरह) UI में नहीं।
+9. एडमिन इस रास्ते पर नहीं।
+10. नकली आँकड़े, xAI एंडोर्समेंट, सरकार/बैंक होने का दावा नहीं।
+
+## अगला implementation rule
+
+अगला काम कॉपी नहीं: **असली कॉन्फ़िगर बटन, बाकी हटाओ।**
+
+A sign-in control may be rendered only when the server confirms a complete usable method. For OAuth this requires a real start path, callback path, PKCE and state/nonce protection plus server-side provider configuration. For OTP this requires real start and verify paths plus provider configuration. A placeholder flag, future plan, or guessed client URL is not enough.
