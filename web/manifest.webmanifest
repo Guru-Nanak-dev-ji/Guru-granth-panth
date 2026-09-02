@@ -1,0 +1,11 @@
+{
+  "name": "KDN — Khatri Digital Network",
+  "short_name": "KDN",
+  "description": "KDN sandbox web app shell. One task, one permission.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#111111",
+  "lang": "hi"
+}
