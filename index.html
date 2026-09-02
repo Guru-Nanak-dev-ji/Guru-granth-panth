@@ -1,23 +1,49 @@
-<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050b16"><meta name="description" content="KDN — तर्क, भावना और मानव एकता की रहस्यमय यात्रा।"><title>KDN — तुम कौन हो?</title><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"></head><body>
-<div class="world-bg" aria-hidden="true"><div class="chess-floor"></div><div class="rocket-streak"></div></div>
-<header class="topbar"><span class="brand"><b>K</b> KDN</span><span class="chapter">अध्याय 01 • पहचान</span></header>
-<div class="teaser" aria-label="KDN संसार की झलक"><div class="teaser-track"><span>♟ अपना अगला कदम खोजें</span><span>🚀 विचार से अवसर तक</span><span>🏛️ अपनी पंचायत, अपनी आवाज़</span><span>🍲 सेवा से संबंध</span><span>🤝 मिलकर बनाएं Good Society</span><span>😄 सवाल गंभीर, सफ़र मज़ेदार</span></div></div>
-<main class="stage">
-  <section class="guide tark" id="tarkGuide"><img src="assets/tark-singh.png" alt="तर्क सिंह"><div><b>तर्क सिंह</b><small>विवेक • प्रश्न • दिशा</small></div></section>
-  <section class="guide bhavna" id="bhavnaGuide"><img src="assets/bhavna-kaur.png" alt="भावना कौर"><div><b>भावना कौर</b><small>अनुभूति • संवाद • संबंध</small></div></section>
-  <section class="story-card" aria-live="polite">
-    <p class="kicker">ONE CLICK CHANGE YOUR LIFE — KDN</p>
-    <div id="dialogue" class="dialogue"></div>
-    <div id="questionBox" class="question-box" hidden>
-      <p id="guideName" class="speaker"></p><h1 id="question">तुम कौन हो?</h1>
-      <div id="options" class="options"></div>
-      <p id="suspense" class="suspense"></p>
-    </div>
-    <button id="startBtn" class="primary">रहस्यमय यात्रा शुरू करें</button>
-    <button id="pauseBtn" class="quiet" hidden>अभी यहीं रुकें</button>
-  </section>
-</main>
-<section id="lockedWorld" class="locked-world">
-  <div><span>♜</span><h2>आपका KDN संसार अभी बंद है</h2><p>पहचान यात्रा पूरी होने पर My Neta, Konnect, Kitchen, News, Aid और आपका निजी AI खुलेंगे।</p><button id="continueBtn">यात्रा जारी रखें</button></div>
-</section>
-<div id="toast" class="toast" hidden></div><script src="app.js"></script></body></html>
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#050b16">
+  <meta name="description" content="KDN — तर्क, भावना और मानव एकता की रहस्यमय यात्रा।">
+  <title>KDN — तुम कौन हो?</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="world-bg" aria-hidden="true"><div class="chess-floor"></div><div class="rocket-streak"></div></div>
+  <header class="topbar">
+    <span class="brand"><b>K</b> KDN</span><span class="chapter">अध्याय 01 • पहचान</span>
+    <button id="voiceBtn" class="voice" type="button" aria-pressed="false" aria-label="आवाज़ चालू करें">🔇 आवाज़</button>
+  </header>
+  <div class="teaser" aria-label="KDN संसार की झलक"><div class="teaser-track"><span>♟ अपना अगला कदम खोजें</span><span>🚀 विचार से अवसर तक</span><span>🏛️ अपनी आवाज़</span><span>🍲 सेवा से संबंध</span><span>🤝 Good Society</span><span>😄 सवाल गंभीर, सफ़र मज़ेदार</span></div></div>
+
+  <main class="stage">
+    <section class="arena" aria-label="KDN मार्गदर्शक">
+      <article class="guide tark" id="tarkGuide">
+        <div class="speech" id="tarkSpeech" aria-live="polite"></div>
+        <div class="portrait"><img src="assets/tark-singh-nihang.png" alt="हाथ जोड़कर स्वागत करते निहंग तर्क सिंह"><i class="mouth" aria-hidden="true"></i></div>
+        <div class="name"><b>निहंग तर्क सिंह</b><small>विवेक • प्रश्न • दिशा</small></div>
+      </article>
+      <article class="guide bhavna" id="bhavnaGuide">
+        <div class="speech" id="bhavnaSpeech" aria-live="polite"></div>
+        <div class="portrait"><img src="assets/bhavna-kaur-nihang.png" alt="हाथ जोड़कर स्वागत करती निहंग भावना कौर"><i class="mouth" aria-hidden="true"></i></div>
+        <div class="name"><b>निहंग भावना कौर</b><small>अनुभूति • संवाद • संबंध</small></div>
+      </article>
+    </section>
+
+    <section class="story-card" aria-live="polite">
+      <p class="kicker">ONE CLICK CHANGE YOUR LIFE — KDN</p>
+      <div id="dialogue" class="dialogue"></div>
+      <div id="questionBox" class="question-box" hidden>
+        <p id="guideName" class="speaker"></p><h1 id="question">तुम कौन हो?</h1>
+        <div id="options" class="options"></div><p id="suspense" class="suspense"></p>
+      </div>
+      <button id="startBtn" class="primary">🙏 यात्रा शुरू करें</button>
+      <button id="pauseBtn" class="quiet" hidden>अभी यहीं रुकें</button>
+    </section>
+  </main>
+
+  <section id="lockedWorld" class="locked-world"><div><span>♜</span><h2>आपका KDN संसार अभी बंद है</h2><p>पहचान यात्रा पूरी होने पर आगे के संसार खुलेंगे।</p><button id="continueBtn">यात्रा जारी रखें</button></div></section>
+  <script src="app.js"></script>
+</body>
+</html>
