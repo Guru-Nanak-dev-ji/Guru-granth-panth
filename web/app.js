@@ -16,6 +16,42 @@ bind('logout',async()=>{const r=await api('/api/v1/auth/logout','POST');token=''
 bind('logoutAll',async()=>{const r=await api('/api/v1/auth/logout-all','POST');token='';sessionStorage.removeItem('kdn_token');return r;});
 bind('recover',()=>api('/api/v1/auth/recovery/request','POST',{email:recoveryEmail.value}));
 
+const configuredAuthMethods = document.getElementById('configuredAuthMethods');
+const passwordRegister = document.getElementById('passwordRegister');
+const passwordLogin = document.getElementById('passwordLogin');
+
+async function renderReadyAuthMethods(){
+  passwordRegister.hidden = true;
+  passwordLogin.hidden = true;
+  configuredAuthMethods.replaceChildren();
+
+  try {
+    const result = await api('/api/v1/auth/methods');
+    const methods = Array.isArray(result.methods) ? result.methods : [];
+
+    for (const method of methods) {
+      if (method.id === 'password') {
+        passwordRegister.hidden = false;
+        passwordLogin.hidden = false;
+        continue;
+      }
+
+      if (!['google','x','phone_otp'].includes(method.id)) continue;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = method.label;
+      button.dataset.authMethod = method.id;
+      button.addEventListener('click', () => {
+        window.location.assign(`/api/v1/auth/start/${encodeURIComponent(method.id)}`);
+      });
+      configuredAuthMethods.append(button);
+    }
+  } catch {
+    // Fail closed: no sign-in control appears unless readiness is confirmed.
+  }
+}
+renderReadyAuthMethods();
+
 const permissionDialog = document.getElementById('permissionDialog');
 const permissionState = document.getElementById('permissionState');
 const permissionKey = 'kdn_sandbox_permissions';
