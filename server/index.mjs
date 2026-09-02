@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createIdentityStore } from './store.mjs';
 import { digestSessionToken, issueSessionToken, sessionExpiry, sessionIsExpired } from './session-token.mjs';
+import { getReadyAuthMethods } from './auth-methods.mjs';
 
 const PORT = Number(process.env.PORT || 3000);
 const ENV = process.env.KDN_ENV || 'sandbox';
@@ -84,6 +85,9 @@ const server = http.createServer(async (req, res) => {
         sessions: store.activeSessionCount(),
         securityAuditEvents: store.auditCount()
       });
+    }
+    if (req.method === 'GET' && url.pathname === '/api/v1/auth/methods') {
+      return json(res, 200, { methods: getReadyAuthMethods({ environment: ENV }) });
     }
 
     if (req.method === 'POST' && url.pathname === '/api/v1/auth/register') {
