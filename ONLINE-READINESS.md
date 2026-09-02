@@ -10,11 +10,11 @@ Goal: move KDN workstreams toward a usable online state while preserving the fro
 - OAuth readiness requires complete provider configuration, start path, callback/verification path, and PKCE/state protections where applicable.
 - Permission popup resists accidental backdrop dismissal while keeping explicit decline/back paths.
 - Bank connection remains read-only intent only; no bank secrets and no money movement.
-- PWA manifest added for the web shell.
+- PWA manifest added and linked from the sandbox web shell with matching theme metadata.
 - Static `404.html` fallback added so project-page/deep-link navigation can return safely to the app root instead of stranding the user on a dead page.
 
 ## Next safe implementation work
-1. Link `manifest.webmanifest` from the web shell and add a no-secret PWA smoke test.
+1. Add a no-secret PWA smoke test that verifies the manifest link, manifest JSON and safe root/404 assets.
 2. Add route restoration logic for the saved `kdn_requested_route` without granting permissions or starting OAuth implicitly.
 3. Add service-worker/offline shell only after cache boundaries are defined; never cache auth tokens, banking data, private messages, or sensitive API responses.
 4. Complete one real official sign-in provider end-to-end before exposing its button.
