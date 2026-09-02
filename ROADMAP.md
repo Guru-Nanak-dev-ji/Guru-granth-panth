@@ -10,19 +10,22 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 - Password hashing, login rate limiting, logout/revoke, non-enumerating recovery request behavior implemented.
 - Sandbox-only live guard implemented.
 - GitHub Actions CI added.
-- Wave 1 CI: unit tests, health smoke tests, safe 404 and live-guard checks passing.
+- Wave 1 CI: unit tests, health smoke tests, safe 404 and live-guard checks passing on the previously verified build.
 - Identity repository abstraction and in-memory sandbox adapter implemented.
 - Durable security audit event contract implemented for the sandbox adapter.
 - PostgreSQL migration `server/migrations/001_identity_security.sql` added for users, sessions, security audit and recovery requests; it is not applied to any live database.
 - Fail-closed migration preflight added: refuses live/production environments, non-PostgreSQL URLs, production-looking database names and remote databases without explicit sandbox opt-in.
 - Migration guard unit tests added and `npm run db:preflight` exposed.
+- Session bearer hardening added: raw bearer tokens are returned only to the client, while the server repository receives SHA-256 token digests only.
+- Explicit seven-day sandbox session expiry added; expired sessions fail closed and are excluded from active-session health counts.
+- Token digest / expiry unit tests added; PostgreSQL schema and sandbox repository contract now agree on `token_digest` semantics.
 
 ## In Progress
 ### Wave 1 — Identity & Security
 - Implement PostgreSQL-backed repository adapter behind the existing identity-store contract.
-- Add production-grade session/token strategy; store only token digests server-side.
 - Add MFA/passkey-ready interfaces.
 - Add account-recovery delivery abstraction without exposing secrets.
+- Verify the latest token-digest/expiry hardening CI run before treating it as green.
 - Add PostgreSQL integration tests once an isolated test database is available.
 
 ## Next
