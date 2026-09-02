@@ -26,10 +26,11 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 - Permission popup no longer dismisses on accidental backdrop taps or implicit browser cancel/Escape; explicit user choice is required while decline/back remains available.
 - Bank permission is explicitly **read-only first**; no transfer/payment/withdrawal permission is bundled into the one-click flow.
 - Permission-center tests enforce explicit acknowledgement, independent revocation, bank read-only semantics and live-mode refusal.
-- `KDN-ONBOARDING-COPY-v1-FROZEN.md` created: Screen 0–5 order, one-task/one-permission semantics, Back=decline, separate notification scopes, read-only bank 90-day consent, AI memory OFF, and money-send outside signup are frozen.
+- `KDN-ONBOARDING-COPY-v1-FROZEN.md` now contains the exact approved master copy for Screens 0–5 and permission-home cards.
 - Auth readiness registry added. Google OAuth, X OAuth and phone OTP remain non-ready and are not rendered; sandbox password is the only ready fallback.
-- Auth controls now fail closed: password UI starts hidden and is shown only after `/api/v1/auth/methods` confirms readiness; future OAuth/OTP buttons can only be rendered from the ready-method response.
-- Auth-method tests verify unready Google/X/OTP methods stay absent and sandbox password does not escape sandbox.
+- Auth controls fail closed: UI renders external sign-in only from server-returned complete methods and uses the server-returned verified `startPath` rather than guessing a route.
+- OAuth completeness requires provider configuration + start path + callback path + PKCE + state/nonce; OTP requires provider configuration + start path + verify path.
+- Auth-method tests enforce the completeness gate so a partial provider setup cannot create a dead button.
 
 ## In Progress
 ### Wave 1 — Identity & Security
