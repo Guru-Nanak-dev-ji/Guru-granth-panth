@@ -35,7 +35,9 @@ const METHODS = Object.freeze({
   })
 });
 
-function methodIsComplete(method, environment) {
+export function isCompleteAuthMethodDefinition(method, environment = 'sandbox') {
+  if (!method || typeof method !== 'object') return false;
+
   if (method.kind === 'password') {
     return method.sandboxOnly ? environment === 'sandbox' : true;
   }
@@ -70,11 +72,11 @@ function publicMethod(method) {
 
 export function getReadyAuthMethods({ environment = 'sandbox' } = {}) {
   return Object.values(METHODS)
-    .filter((method) => methodIsComplete(method, environment))
+    .filter((method) => isCompleteAuthMethodDefinition(method, environment))
     .map(publicMethod);
 }
 
 export function isAuthMethodReady(methodId, { environment = 'sandbox' } = {}) {
   const method = METHODS[methodId];
-  return Boolean(method && methodIsComplete(method, environment));
+  return Boolean(method && isCompleteAuthMethodDefinition(method, environment));
 }
