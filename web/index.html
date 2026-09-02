@@ -20,8 +20,14 @@ body{font-family:system-ui,sans-serif;max-width:760px;margin:32px auto;padding:0
 <p class="small">Bank connection is read-only first. Money movement is never included in this one-click permission flow.</p>
 </section>
 
-<fieldset><legend>Create sandbox account</legend><input id="regEmail" type="email" placeholder="Email"><input id="regPassword" type="password" placeholder="Password (12+ characters)"><button id="register">Register</button></fieldset>
-<fieldset><legend>Login</legend><input id="loginEmail" type="email" placeholder="Email"><input id="loginPassword" type="password" placeholder="Password"><button id="login">Login</button><button id="me">Who am I?</button><button id="sessions">My sessions</button><button id="logout">Logout</button><button id="logoutAll">Logout all sessions</button></fieldset>
+<section class="card">
+<h2>KDN ID</h2>
+<p class="small">Only sign-in methods confirmed ready by the server are rendered. Unconfigured OAuth/OTP controls do not exist on this screen.</p>
+<div id="configuredAuthMethods"></div>
+</section>
+
+<fieldset id="passwordRegister" hidden><legend>Create sandbox account</legend><input id="regEmail" type="email" placeholder="Email"><input id="regPassword" type="password" placeholder="Password (12+ characters)"><button id="register">Register</button></fieldset>
+<fieldset id="passwordLogin" hidden><legend>Login</legend><input id="loginEmail" type="email" placeholder="Email"><input id="loginPassword" type="password" placeholder="Password"><button id="login">Login</button><button id="me">Who am I?</button><button id="sessions">My sessions</button><button id="logout">Logout</button><button id="logoutAll">Logout all sessions</button></fieldset>
 <fieldset><legend>Recovery</legend><input id="recoveryEmail" type="email" placeholder="Email"><button id="recover">Request recovery</button><small>No email is sent in Wave 1. Response is deliberately non-enumerating.</small></fieldset>
 
 <dialog id="permissionDialog">
