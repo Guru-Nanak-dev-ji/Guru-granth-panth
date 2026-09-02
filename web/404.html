@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>KDN — वापस होम</title>
+</head>
+<body>
+<p>KDN खोल रहे हैं…</p>
+<noscript><p>यह रास्ता उपलब्ध नहीं है। KDN होम खोलें।</p></noscript>
+<script>
+(() => {
+  const isProjectPages = location.hostname.endsWith('.github.io');
+  const parts = location.pathname.split('/').filter(Boolean);
+  const base = isProjectPages && parts.length ? `/${parts[0]}/` : '/';
+  const original = `${location.pathname}${location.search}${location.hash}`;
+  sessionStorage.setItem('kdn_requested_route', original);
+  location.replace(base);
+})();
+</script>
+</body>
+</html>
