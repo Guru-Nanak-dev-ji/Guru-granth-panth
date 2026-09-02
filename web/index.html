@@ -28,12 +28,13 @@ body{font-family:system-ui,sans-serif;max-width:760px;margin:32px auto;padding:0
 <div class="dialog-body">
 <h2>Permission Center</h2>
 <p class="warning"><strong>Important:</strong> “Allow” here records sandbox UI intent only. A real Social/Bank connection must still complete the provider’s official OAuth/Open-Banking screen.</p>
+<p class="small"><strong>Accidental-touch protection:</strong> tapping outside this sheet will not close it. Closing requires an explicit on-screen action; Allow applies only to the permission you choose.</p>
 <div class="permission"><strong>KDN Membership</strong><p class="small">Progressive access to KDN services.</p><div class="row"><button data-permission="kdn.membership" data-action="allow">Allow</button><button data-permission="kdn.membership" data-action="revoke">Revoke</button></div></div>
 <div class="permission"><strong>AI Avatar / Auto Reply</strong><p class="small">AI must identify itself as AI and escalate sensitive/consequential conversations to you.</p><div class="row"><button data-permission="ai.avatar" data-action="allow">Allow</button><button data-permission="ai.avatar" data-action="revoke">Revoke</button></div></div>
 <div class="permission"><strong>Social Hub</strong><p class="small">Official OAuth/API connections only. Never type a social password into KDN chat.</p><div class="row"><button data-permission="social.connect" data-action="allow">Allow</button><button data-permission="social.connect" data-action="revoke">Revoke</button></div></div>
 <div class="permission"><strong>Bank Account — Read Only</strong><p class="small">Future official Open-Banking/OAuth flow for account identity, balances and transactions. No transfers, withdrawals or payments.</p><div class="row"><button data-permission="bank.read" data-action="allow">Allow read-only setup</button><button data-permission="bank.read" data-action="revoke">Revoke</button></div></div>
 <div id="permissionState" class="ok">No sandbox permissions selected yet.</div>
-<button id="closePermissions">Done</button>
+<button id="closePermissions">Done / Close</button>
 </div>
 </dialog>
 
