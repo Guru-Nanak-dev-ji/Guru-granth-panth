@@ -1,1 +1,43 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KDN Wave 1 Sandbox</title><style>body{font-family:system-ui,sans-serif;max-width:760px;margin:40px auto;padding:0 16px;line-height:1.5}fieldset{margin:18px 0;padding:16px}input,button{font:inherit;padding:10px;margin:6px 0;width:100%;box-sizing:border-box}pre{white-space:pre-wrap;background:#f4f4f4;padding:12px;border-radius:8px}.tag{display:inline-block;padding:4px 8px;border:1px solid #999;border-radius:999px}</style></head><body><h1>KDN — Khatri ID Sandbox</h1><p class="tag">SANDBOX ONLY · NOT LIVE</p><p>This Wave-1 screen tests opaque user IDs, login, sessions, logout and generic recovery requests. Storage is temporary memory and resets when the server restarts.</p><fieldset><legend>Create sandbox account</legend><input id="regEmail" type="email" placeholder="Email"><input id="regPassword" type="password" placeholder="Password (12+ characters)"><button id="register">Register</button></fieldset><fieldset><legend>Login</legend><input id="loginEmail" type="email" placeholder="Email"><input id="loginPassword" type="password" placeholder="Password"><button id="login">Login</button><button id="me">Who am I?</button><button id="sessions">My sessions</button><button id="logout">Logout</button><button id="logoutAll">Logout all sessions</button></fieldset><fieldset><legend>Recovery</legend><input id="recoveryEmail" type="email" placeholder="Email"><button id="recover">Request recovery</button><small>No email is sent in Wave 1. Response is deliberately non-enumerating.</small></fieldset><h2>Result</h2><pre id="out">Ready.</pre><script src="/app.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KDN Wave 1 Sandbox</title>
+<style>
+body{font-family:system-ui,sans-serif;max-width:760px;margin:32px auto;padding:0 16px;line-height:1.5;background:#fafafa;color:#151515}fieldset,.card{margin:18px 0;padding:16px;border:1px solid #ccc;border-radius:14px;background:white}input,button{font:inherit;padding:11px;margin:6px 0;width:100%;box-sizing:border-box}button{cursor:pointer;border-radius:10px;border:1px solid #888;background:#fff}button.primary{font-weight:700;background:#111;color:#fff}.permission{padding:12px 0;border-top:1px solid #ddd}.permission:first-child{border-top:0}pre{white-space:pre-wrap;background:#f1f1f1;padding:12px;border-radius:8px}.tag{display:inline-block;padding:4px 8px;border:1px solid #999;border-radius:999px}.warning{font-size:.9rem;background:#fff7dc;padding:10px;border-radius:10px}.ok{font-size:.9rem;background:#eaf8ee;padding:10px;border-radius:10px}dialog{border:0;border-radius:18px;max-width:540px;width:calc(100% - 28px);padding:0;box-shadow:0 16px 60px #0004}dialog::backdrop{background:#0008}.dialog-body{padding:18px}.row{display:flex;gap:8px}.row button{width:auto;flex:1}.small{font-size:.86rem;color:#555}
+</style>
+</head>
+<body>
+<h1>KDN — Khatri ID Sandbox</h1>
+<p class="tag">SANDBOX ONLY · NOT LIVE</p>
+<p>This Wave-1 screen tests identity/security and the first mobile permission flow. No bank, social or external account is connected by this sandbox screen.</p>
+
+<section class="card">
+<h2>One Click Change Your Life — KDN</h2>
+<p>Open one permission center and approve only the capabilities you want. Each optional permission stays separate and reversible.</p>
+<button id="openPermissions" class="primary">One Click — Review Permissions</button>
+<p class="small">Bank connection is read-only first. Money movement is never included in this one-click permission flow.</p>
+</section>
+
+<fieldset><legend>Create sandbox account</legend><input id="regEmail" type="email" placeholder="Email"><input id="regPassword" type="password" placeholder="Password (12+ characters)"><button id="register">Register</button></fieldset>
+<fieldset><legend>Login</legend><input id="loginEmail" type="email" placeholder="Email"><input id="loginPassword" type="password" placeholder="Password"><button id="login">Login</button><button id="me">Who am I?</button><button id="sessions">My sessions</button><button id="logout">Logout</button><button id="logoutAll">Logout all sessions</button></fieldset>
+<fieldset><legend>Recovery</legend><input id="recoveryEmail" type="email" placeholder="Email"><button id="recover">Request recovery</button><small>No email is sent in Wave 1. Response is deliberately non-enumerating.</small></fieldset>
+
+<dialog id="permissionDialog">
+<div class="dialog-body">
+<h2>Permission Center</h2>
+<p class="warning"><strong>Important:</strong> “Allow” here records sandbox UI intent only. A real Social/Bank connection must still complete the provider’s official OAuth/Open-Banking screen.</p>
+<div class="permission"><strong>KDN Membership</strong><p class="small">Progressive access to KDN services.</p><div class="row"><button data-permission="kdn.membership" data-action="allow">Allow</button><button data-permission="kdn.membership" data-action="revoke">Revoke</button></div></div>
+<div class="permission"><strong>AI Avatar / Auto Reply</strong><p class="small">AI must identify itself as AI and escalate sensitive/consequential conversations to you.</p><div class="row"><button data-permission="ai.avatar" data-action="allow">Allow</button><button data-permission="ai.avatar" data-action="revoke">Revoke</button></div></div>
+<div class="permission"><strong>Social Hub</strong><p class="small">Official OAuth/API connections only. Never type a social password into KDN chat.</p><div class="row"><button data-permission="social.connect" data-action="allow">Allow</button><button data-permission="social.connect" data-action="revoke">Revoke</button></div></div>
+<div class="permission"><strong>Bank Account — Read Only</strong><p class="small">Future official Open-Banking/OAuth flow for account identity, balances and transactions. No transfers, withdrawals or payments.</p><div class="row"><button data-permission="bank.read" data-action="allow">Allow read-only setup</button><button data-permission="bank.read" data-action="revoke">Revoke</button></div></div>
+<div id="permissionState" class="ok">No sandbox permissions selected yet.</div>
+<button id="closePermissions">Done</button>
+</div>
+</dialog>
+
+<h2>Result</h2><pre id="out">Ready.</pre>
+<script src="/app.js"></script>
+</body>
+</html>
