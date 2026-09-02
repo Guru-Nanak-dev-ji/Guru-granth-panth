@@ -16,8 +16,10 @@ test('auth methods are rendered only from server readiness response', () => {
   assert.match(app, /configuredAuthMethods\.replaceChildren\(\)/);
 });
 
-test('OAuth or OTP button requires a server-provided startPath', () => {
-  assert.match(app, /if \(!method\.startPath\) continue/);
+test('OAuth or OTP button requires an allowed provider and a server-provided root-relative startPath', () => {
+  assert.match(app, /\['google','x','phone_otp'\]\.includes\(method\.id\)/);
+  assert.match(app, /typeof method\.startPath !== 'string'/);
+  assert.match(app, /!method\.startPath\.startsWith\('\/'\)/);
   assert.match(app, /window\.location\.assign\(method\.startPath\)/);
   assert.equal(/window\.location\.assign\(`\/api\/v1\/auth\/start\//.test(app), false);
 });
