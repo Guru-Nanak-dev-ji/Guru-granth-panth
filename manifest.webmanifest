@@ -1,0 +1,10 @@
+{
+  "name": "KDN — Human + AI Network",
+  "short_name": "KDN",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#06101e",
+  "theme_color": "#081424",
+  "description": "One identity, five worlds, human-controlled AI.",
+  "lang": "hi"
+}
