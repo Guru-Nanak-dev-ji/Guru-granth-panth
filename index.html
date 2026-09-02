@@ -1,84 +1,23 @@
-<!doctype html>
-<html lang="hi">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#081424">
-  <meta name="description" content="KDN — one identity, five worlds, human-controlled AI.">
-  <title>KDN — One World, Many Paths</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <a class="skip-link" href="#main">मुख्य भाग पर जाएँ</a>
-  <header class="topbar">
-    <a class="brand" href="#" aria-label="KDN Home"><span class="brand-mark">K</span><span>KDN</span></a>
-    <div class="top-actions">
-      <button id="languageBtn" class="icon-btn" aria-label="भाषा चुनें">अ</button>
-      <button id="profileBtn" class="avatar" aria-label="मेरी प्रोफ़ाइल">DS</button>
+<!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#050b16"><meta name="description" content="KDN — तर्क, भावना और मानव एकता की रहस्यमय यात्रा।"><title>KDN — तुम कौन हो?</title><link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css"></head><body>
+<div class="world-bg" aria-hidden="true"><div class="chess-floor"></div><div class="rocket-streak"></div></div>
+<header class="topbar"><span class="brand"><b>K</b> KDN</span><span class="chapter">अध्याय 01 • पहचान</span></header>
+<div class="teaser" aria-label="KDN संसार की झलक"><div class="teaser-track"><span>♟ अपना अगला कदम खोजें</span><span>🚀 विचार से अवसर तक</span><span>🏛️ अपनी पंचायत, अपनी आवाज़</span><span>🍲 सेवा से संबंध</span><span>🤝 मिलकर बनाएं Good Society</span><span>😄 सवाल गंभीर, सफ़र मज़ेदार</span></div></div>
+<main class="stage">
+  <section class="guide tark" id="tarkGuide"><img src="assets/tark-singh.png" alt="तर्क सिंह"><div><b>तर्क सिंह</b><small>विवेक • प्रश्न • दिशा</small></div></section>
+  <section class="guide bhavna" id="bhavnaGuide"><img src="assets/bhavna-kaur.png" alt="भावना कौर"><div><b>भावना कौर</b><small>अनुभूति • संवाद • संबंध</small></div></section>
+  <section class="story-card" aria-live="polite">
+    <p class="kicker">ONE CLICK CHANGE YOUR LIFE — KDN</p>
+    <div id="dialogue" class="dialogue"></div>
+    <div id="questionBox" class="question-box" hidden>
+      <p id="guideName" class="speaker"></p><h1 id="question">तुम कौन हो?</h1>
+      <div id="options" class="options"></div>
+      <p id="suspense" class="suspense"></p>
     </div>
-  </header>
-
-  <main id="main" class="app-shell">
-    <section class="welcome" aria-labelledby="welcome-title">
-      <p class="eyebrow">HUMAN + AI • GOOD SOCIETY</p>
-      <h1 id="welcome-title">तुम कौन हो?</h1>
-      <p class="lead">अपनी कहानी से शुरुआत करें। KDN आपकी रुचियों के अनुसार सीखने, सेवा, काम, समुदाय और मनोरंजन की राह बनाएगा—फैसला हमेशा आपका रहेगा।</p>
-      <div class="welcome-actions">
-        <button id="startJourney" class="btn btn-primary">मेरी यात्रा शुरू करें</button>
-        <button id="exploreBtn" class="btn btn-secondary">पहले KDN देखें</button>
-      </div>
-      <p class="trust-line">🔒 उत्तर आपकी अनुमति के बिना प्रकाशित नहीं होंगे।</p>
-    </section>
-
-    <section class="persona-strip" aria-labelledby="guide-title">
-      <div><p class="section-kicker">आपका AI साथी</p><h2 id="guide-title">अपना मार्गदर्शक चुनें</h2></div>
-      <div class="persona-controls" role="group" aria-label="AI persona">
-        <button class="persona active" data-persona="tark" aria-pressed="true"><span>ਤ</span><b>तर्क सिंह</b><small>सोच • योजना</small></button>
-        <button class="persona" data-persona="bhavna" aria-pressed="false"><span>ਭ</span><b>भावना कौर</b><small>संवाद • सहयोग</small></button>
-      </div>
-      <p id="personaNote" class="persona-note">तर्क सिंह आपके विचार को सवालों, विकल्पों और व्यावहारिक अगले कदम में बदलेंगे।</p>
-    </section>
-
-    <section id="worlds" class="worlds-section" aria-labelledby="worlds-title">
-      <div class="section-head"><div><p class="section-kicker">एक पहचान • पाँच संसार</p><h2 id="worlds-title">आज कहाँ जाना है?</h2></div><button id="installBtn" class="text-btn" hidden>ऐप इंस्टॉल करें</button></div>
-      <div class="world-grid">
-        <button class="world-card" data-world="My Neta"><span class="world-icon">🏛️</span><span><b>My Neta</b><small>प्रस्ताव, पंचायत और जन-भागीदारी</small></span><em>›</em></button>
-        <button class="world-card" data-world="Khatri Konnect"><span class="world-icon">🤝</span><span><b>Khatri Konnect</b><small>काम, सेवाएँ, व्यापार और सहयोग</small></span><em>›</em></button>
-        <button class="world-card" data-world="Guru Nanak Kitchen"><span class="world-icon">🍲</span><span><b>Guru Nanak Kitchen</b><small>लंगर, भोजन, दान और स्वयंसेवा</small></span><em>›</em></button>
-        <button class="world-card" data-world="Khatri News Network"><span class="world-icon">📰</span><span><b>Khatri News Network</b><small>समाचार, संदर्भ, बहस और अनुवाद</small></span><em>›</em></button>
-        <button class="world-card" data-world="Khatri Aid"><span class="world-icon">⛑️</span><span><b>Khatri Aid</b><small>मदद माँगें, सेवा दें, असर देखें</small></span><em>›</em></button>
-      </div>
-    </section>
-
-    <section class="spark" aria-labelledby="spark-title">
-      <div><p class="section-kicker">आज का विचार</p><h2 id="spark-title">अगर समाज को एक नियम बदलना हो, आप क्या बदलेंगे?</h2></div>
-      <div class="spark-actions"><button class="chip" data-reaction="सोचूँगा">🤔 सोचूँगा</button><button class="chip" data-reaction="बोलूँगा">🎙️ बोलूँगा</button><button class="chip" data-reaction="हँसी भी जरूरी">😄 हँसी भी जरूरी</button></div>
-      <p id="sparkReply" class="spark-reply" aria-live="polite"></p>
-    </section>
-
-    <section class="status-card">
-      <span class="status-dot"></span><div><b>KDN Public MVP</b><p>पहला सार्वजनिक संस्करण ऑनलाइन है। Live accounts और consequential actions अलग permission के बाद ही जुड़ेंगे।</p></div>
-    </section>
-  </main>
-
-  <nav class="bottom-nav" aria-label="मुख्य नेविगेशन">
-    <button class="nav-item active" data-target="main"><span>⌂</span><b>होम</b></button>
-    <button class="nav-item" data-target="worlds"><span>◈</span><b>संसार</b></button>
-    <button class="nav-item" id="askAi"><span>✦</span><b>AI</b></button>
-    <button class="nav-item" data-target="spark-title"><span>☺</span><b>Fun</b></button>
-    <button class="nav-item" id="meBtn"><span>♙</span><b>मैं</b></button>
-  </nav>
-
-  <dialog id="journeyDialog">
-    <form id="journeyForm" method="dialog">
-      <header class="dialog-head"><div><p id="stepLabel">पहला कदम</p><h2 id="dialogTitle">तुम कौन हो?</h2></div><button id="closeDialog" type="button" class="icon-btn" aria-label="बंद करें">×</button></header>
-      <div id="journeyStep" class="dialog-body"></div>
-      <footer class="dialog-actions"><button id="laterBtn" type="button" class="btn btn-secondary">अभी नहीं</button><button id="nextBtn" type="submit" class="btn btn-primary">आगे बढ़ें</button></footer>
-    </form>
-  </dialog>
-
-  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  <script src="app.js"></script>
-</body>
-</html>
+    <button id="startBtn" class="primary">रहस्यमय यात्रा शुरू करें</button>
+    <button id="pauseBtn" class="quiet" hidden>अभी यहीं रुकें</button>
+  </section>
+</main>
+<section id="lockedWorld" class="locked-world">
+  <div><span>♜</span><h2>आपका KDN संसार अभी बंद है</h2><p>पहचान यात्रा पूरी होने पर My Neta, Konnect, Kitchen, News, Aid और आपका निजी AI खुलेंगे।</p><button id="continueBtn">यात्रा जारी रखें</button></div>
+</section>
+<div id="toast" class="toast" hidden></div><script src="app.js"></script></body></html>
