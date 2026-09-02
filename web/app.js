@@ -30,24 +30,26 @@ async function renderReadyAuthMethods(){
     const methods = Array.isArray(result.methods) ? result.methods : [];
 
     for (const method of methods) {
-      if (method.id === 'password') {
+      if (method.id === 'password' && method.kind === 'password') {
         passwordRegister.hidden = false;
         passwordLogin.hidden = false;
         continue;
       }
 
-      if (!['google','x','phone_otp'].includes(method.id)) continue;
+      const allowedExternalMethod = ['google','x','phone_otp'].includes(method.id);
+      if (!allowedExternalMethod || typeof method.startPath !== 'string' || !method.startPath.startsWith('/')) continue;
+
       const button = document.createElement('button');
       button.type = 'button';
       button.textContent = method.label;
       button.dataset.authMethod = method.id;
       button.addEventListener('click', () => {
-        window.location.assign(`/api/v1/auth/start/${encodeURIComponent(method.id)}`);
+        window.location.assign(method.startPath);
       });
       configuredAuthMethods.append(button);
     }
   } catch {
-    // Fail closed: no sign-in control appears unless readiness is confirmed.
+    // Fail closed: if readiness cannot be verified, no external sign-in control appears.
   }
 }
 renderReadyAuthMethods();
@@ -101,9 +103,7 @@ permissionDialog.addEventListener('click', (event) => {
   }
 });
 
-// Browser Escape/cancel is treated as an explicit decline path, not an accidental
-// background tap. Prevent the browser's implicit close so the app can keep consent
-// handling deterministic and auditable.
+// Prevent implicit browser dismissal so consent handling stays deterministic.
 permissionDialog.addEventListener('cancel', (event) => {
   event.preventDefault();
   show({ status: 'permission_dialog_still_open', reason: 'explicit_choice_required' });
