@@ -23,6 +23,7 @@ Canonical architecture is frozen at **P61–P150**. New ideas normally become ve
 - PostgreSQL adapter contract tests added for live-mode refusal, digest-only session persistence, expiry/revocation fail-closed behavior and JSONB audit serialization.
 - One-click permission-center sandbox module added with separate reversible grants for KDN membership, disclosed AI avatar, Social Hub and bank read-only connection intent.
 - Mobile-first permission popup added to the Wave-1 sandbox UI.
+- Permission popup no longer dismisses on accidental backdrop taps or implicit browser cancel/Escape; explicit user choice is required while decline/back remains available.
 - Bank permission is explicitly **read-only first**; no transfer/payment/withdrawal permission is bundled into the one-click flow.
 - Permission-center tests enforce explicit acknowledgement, independent revocation, bank read-only semantics and live-mode refusal.
 
